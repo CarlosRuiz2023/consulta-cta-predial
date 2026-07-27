@@ -1,54 +1,56 @@
 <div class="flex h-screen bg-gray-100">
 
-    <!-- Panel izquierdo -->
-    <div class="w-1/4 p-4 bg-white shadow">
+  <!-- Panel izquierdo -->
+  <div class="w-1/4 p-4 bg-white shadow">
 
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Cuenta predial</mat-label>
-            <input matInput placeholder="Ej. 02AA04575001">
-        </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Cuenta predial</mat-label>
+      <input matInput placeholder="Ej. 02AA04575001" [formControl]="cuentaPredial">
+    </mat-form-field>
 
-        <button mat-raised-button color="primary" class="w-full mt-3">
-            Buscar
-        </button>
+    <button mat-raised-button color="primary" class="w-full mt-3" (click)="buscar()">
 
-    </div>
+      Buscar
 
-    <!-- Panel derecho -->
-    <div class="flex-1 p-4 space-y-4">
+    </button>
 
-        <mat-card>
+  </div>
 
-            <mat-card-title>
-                Bienvenido
-            </mat-card-title>
+  <!-- Panel derecho -->
+  <div class="flex-1 p-4 space-y-4">
 
-            <mat-card-content>
-                Aquí aparecerán los resultados de la búsqueda.
-            </mat-card-content>
+    <mat-card>
 
-        </mat-card>
+      <mat-card-title>
+        Bienvenido
+      </mat-card-title>
 
-        <div class="grid grid-cols-2 gap-4">
+      <mat-card-content>
+        Aquí aparecerán los resultados de la búsqueda.
+      </mat-card-content>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Resultado 1</mat-label>
-                <textarea matInput rows="8"></textarea>
-            </mat-form-field>
+    </mat-card>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Resultado 2</mat-label>
-                <textarea matInput rows="8"></textarea>
-            </mat-form-field>
+    <div class="grid grid-cols-2 gap-4">
 
-        </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Resultado 1</mat-label>
+        <textarea matInput rows="8" [value]="resultado1"></textarea>
+      </mat-form-field>
 
-        <mat-card class="h-[400px]">
-
-            <app-map></app-map>
-
-        </mat-card>
+      <mat-form-field appearance="outline">
+        <mat-label>Resultado 2</mat-label>
+        <textarea matInput rows="8" [value]="resultado2"></textarea>
+      </mat-form-field>
 
     </div>
+
+    <mat-card class="h-[400px]">
+
+      <app-map></app-map>
+
+    </mat-card>
+
+  </div>
 
 </div>
