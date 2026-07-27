@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 declare var H: any;
 
@@ -7,8 +8,7 @@ declare var H: any;
 })
 export class GeoserverService {
 
-  private readonly wmsUrl =
-    'http://172.17.11.168:8080/geoserver/sigFidoc/wms';
+  private readonly wmsUrl = environment.geoserver.wmsUrl;
 
   constructor() { }
 

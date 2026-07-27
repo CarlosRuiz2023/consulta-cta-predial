@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,12 +23,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+
+  @ViewChild(MapComponent)
+  mapComponent!:MapComponent;
   cuentaPredial = new FormControl('');
-
   resultado1 = '';
-
   resultado2 = '';
-
   resultado3 = '';
 
   constructor(
@@ -48,14 +48,10 @@ export class AppComponent {
         next: (resp:any) => {
           // Lo imprimimos bonito en el textarea
           this.resultado1 = JSON.stringify(resp, null, 2);
-
         },
         error: (err:any) => {
-
           console.error(err);
-
           this.resultado1 = JSON.stringify(err.error ?? err, null, 2);
-
         }
       });
     this.carteraService.consultarDeudaVigenteSGP(cuenta)
@@ -63,34 +59,24 @@ export class AppComponent {
         next: (resp:any) => {
           // Lo imprimimos bonito en el textarea
           this.resultado2 = JSON.stringify(resp, null, 2);
-
         },
         error: (err:any) => {
-
           console.error(err);
-
           this.resultado2 = JSON.stringify(err.error ?? err, null, 2);
-
         }
       });
     this.carteraService.consultarDeudaVigenteGeocodificado(cuenta)
       .subscribe({
         next: (resp:any) => {
-
           console.log(resp);
-
           // Lo imprimimos bonito en el textarea
           this.resultado3 = JSON.stringify(resp, null, 2);
-
+          this.mapComponent.mostrarResultados(resp.data.items);
         },
         error: (err:any) => {
-
           console.error(err);
-
           this.resultado3 = JSON.stringify(err.error ?? err, null, 2);
-
         }
       });
-
   }
 }
