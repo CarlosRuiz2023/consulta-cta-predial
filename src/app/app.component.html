@@ -9,10 +9,23 @@
     </mat-form-field>
 
     <button mat-raised-button color="primary" class="w-full mt-3" (click)="buscar()">
-
       Buscar
-
     </button>
+
+    <!-- Textareas -->
+    <div class="mt-4 space-y-4">
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>SIFIDOC</mat-label>
+        <textarea matInput rows="8" [value]="resultado1"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>SGP</mat-label>
+        <textarea matInput rows="8" [value]="resultado2"></textarea>
+      </mat-form-field>
+
+    </div>
 
   </div>
 
@@ -20,7 +33,6 @@
   <div class="flex-1 p-4 space-y-4">
 
     <mat-card>
-
       <mat-card-title>
         Bienvenido
       </mat-card-title>
@@ -28,27 +40,10 @@
       <mat-card-content>
         Aquí aparecerán los resultados de la búsqueda.
       </mat-card-content>
-
     </mat-card>
 
-    <div class="grid grid-cols-2 gap-4">
-
-      <mat-form-field appearance="outline">
-        <mat-label>Resultado 1</mat-label>
-        <textarea matInput rows="8" [value]="resultado1"></textarea>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Resultado 2</mat-label>
-        <textarea matInput rows="8" [value]="resultado2"></textarea>
-      </mat-form-field>
-
-    </div>
-
     <mat-card class="h-[400px]">
-
       <app-map></app-map>
-
     </mat-card>
 
   </div>

@@ -2,7 +2,7 @@ export const environment = {
   production: true,
 
   api: {
-    baseUrl: 'http://localhost:3500/api'
+    baseUrl: 'http://172.17.11.169:3500/api'
   },
 
   here: {

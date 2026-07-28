@@ -23,7 +23,6 @@ export class GeoserverService {
         const url = `${this.wmsUrl}?service=WMS&version=1.1.1&request=GetMap` +
           `&layers=${layerName}&styles=&format=image/png&transparent=true` +
           `&srs=EPSG:3857&width=256&height=256&bbox=${bbox}`;
-        console.log('getURL llamado:', url);
         return url;
       },
       tileSize: 256,
