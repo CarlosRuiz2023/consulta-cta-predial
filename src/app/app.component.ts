@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MapComponent } from './components/map/map.component';
 import { CarteraVencidaService } from './services/cartera-vencida.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class AppComponent {
 
   @ViewChild(MapComponent)
-  mapComponent!:MapComponent;
+  mapComponent!: MapComponent;
   cuentaPredial = new FormControl('');
   resultado1 = '';
   resultado2 = '';
@@ -43,40 +44,34 @@ export class AppComponent {
       return;
     }
 
-    this.carteraService.consultarDeudaVigenteSIFIDOC(cuenta)
-      .subscribe({
-        next: (resp:any) => {
-          // Lo imprimimos bonito en el textarea
-          this.resultado1 = JSON.stringify(resp, null, 2);
-        },
-        error: (err:any) => {
-          console.error(err);
-          this.resultado1 = JSON.stringify(err.error ?? err, null, 2);
-        }
-      });
-    this.carteraService.consultarDeudaVigenteSGP(cuenta)
-      .subscribe({
-        next: (resp:any) => {
-          // Lo imprimimos bonito en el textarea
-          this.resultado2 = JSON.stringify(resp, null, 2);
-        },
-        error: (err:any) => {
-          console.error(err);
-          this.resultado2 = JSON.stringify(err.error ?? err, null, 2);
-        }
-      });
-    this.carteraService.consultarDeudaVigenteGeocodificado(cuenta)
-      .subscribe({
-        next: (resp:any) => {
-          console.log(resp);
-          // Lo imprimimos bonito en el textarea
-          this.resultado3 = JSON.stringify(resp, null, 2);
-          this.mapComponent.mostrarResultados(resp.data.items);
-        },
-        error: (err:any) => {
-          console.error(err);
-          this.resultado3 = JSON.stringify(err.error ?? err, null, 2);
-        }
-      });
+    forkJoin({
+      sifidoc: this.carteraService.consultarDeudaVigenteSIFIDOC(cuenta),
+      sgp: this.carteraService.consultarDeudaVigenteSGP(cuenta),
+      geo: this.carteraService.consultarDeudaVigenteGeocodificado(cuenta)
+    }).subscribe({
+      next: ({ sifidoc, sgp, geo }) => {
+
+        this.resultado1 = JSON.stringify(sifidoc, null, 2);
+        this.resultado2 = JSON.stringify(sgp, null, 2);
+        this.resultado3 = JSON.stringify(geo, null, 2);
+
+        this.mapComponent.mostrarResultados(geo.data.items);
+
+        // Aquí ya tienes las tres respuestas
+        this.compararResultados(sifidoc, sgp);
+
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
+
+  compararResultados(sifidoc: any, sgp: any) {
+
+  console.log('SIFIDOC:', sifidoc);
+  console.log(sifidoc.data.data.reng);
+  console.log('SGP:', sgp);
+  console.log(sgp.data.data.reng);
+}
 }
